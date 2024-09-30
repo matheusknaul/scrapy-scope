@@ -1,10 +1,10 @@
+
+
 def searchElement(text, listAnalys):
     """_summary_
-
     Args:
         text (str): text that will be analyzed.
         listAnalys (_type_): _description_
-
     Returns:
         _type_: _description_
     """

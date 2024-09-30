@@ -1,6 +1,8 @@
 import re
 from PyPDF2 import PdfReader
 
+#finalizado
+
 def __build__(pdf):
     builded_text = concatena_paginas(pega_texto_pdf(pdf))
     return builded_text

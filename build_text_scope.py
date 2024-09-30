@@ -1,7 +1,7 @@
 import re
 from PyPDF2 import PdfReader
 
-def main(pdf):
+def __build__(pdf):
     builded_text = concatena_paginas(pega_texto_pdf(pdf))
     return builded_text
 
@@ -38,5 +38,3 @@ def pega_texto_pdf(pdf):
             page_text = page.extract_text().replace('\n','')
             pageList.append(page_text)
     return pageList
-
-main('escopo.pdf')

@@ -5,6 +5,9 @@ def __search__(texto, lista_analise):
     Precisará do texto que será analisado e da lista
     de elementos.
 
+    Os indices representam o número do caracter do texto no qual o elemento começa mais
+    o seu tamanho. 
+
     Args:
         texto(str) = texto que será analisado;
 
@@ -32,7 +35,8 @@ def organizar_resultado(resultados):
             if type(element) == str and element not in resultado_temp:
                 resultado_temp.append(element)
             if type(element) == int:
-                indices.append(element)
+                indice_real = len(resultado_temp[0]) + element
+                indices.append(indice_real)
         resultado_temp.append(indices)
         resultado_final.append(resultado_temp)
     

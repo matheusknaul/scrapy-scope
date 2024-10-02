@@ -10,6 +10,4 @@ text = "Teste ae flask 1ndteste pain aaaa pain aaaaaaaa"
 
 lista = __search__(text, list1)
 
-print(f'AAAAAAAAAAAAAA: {text[28:]}')
-
 print(lista)

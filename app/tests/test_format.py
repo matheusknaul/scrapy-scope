@@ -8,6 +8,6 @@ text = "Teste ae flask 1ndteste pain aaaa pain aaaaaaaa pain pain pain AAAAAAAAA
 
 lista = __search__(text, list1)
 
-print(f'AAAAAAAAAAAAAA: {text[28:]}')
+print(lista)
 
 print(organizar_indices(lista))

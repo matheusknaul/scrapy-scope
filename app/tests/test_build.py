@@ -1,5 +1,5 @@
-# Teste do build_text_scope.py
+import test_configuration
 
-from build_text_scope import main
+from build_text_scope import __build_text__
 
-print(main('escopo.pdf'))
+print(__build_text__('app/escopo.pdf'))

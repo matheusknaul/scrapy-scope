@@ -2,7 +2,6 @@ def __build__(lista_resultado):
     lista_resultado_new = []
     
     for i in range(len(lista_resultado)):
-        print(len(lista_resultado))
         if i == len(lista_resultado) - 1:
             resultado = [lista_resultado[i][0], [lista_resultado[i][1][0], -1]]
             lista_resultado_new.append(resultado)

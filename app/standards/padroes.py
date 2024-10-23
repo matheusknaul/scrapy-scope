@@ -1,10 +1,53 @@
 import re
 
-# Detectar tags
+# Pattern Tag
 
 PATTERN_ABNT = r"ABNT"
 PATTERN_ISO = r"ISO"
 PATTERN_ASTM = r"ASTM"
+
+list_of_tagpatterns = [
+                    PATTERN_ABNT, PATTERN_ISO, PATTERN_ASTM
+]
+
+# Pattern Number
+
+PATTERN_NUMBER_1 = r"[A-Z]{2,5}\s\d{2,5}" # Ex ISO 17025
+PATTERN_NUMBER_2 = r"[A-Z]{1}\d{2,5}" # Ex E112
+
+list_of_numberpatterns = [
+                    PATTERN_NUMBER_1, PATTERN_NUMBER_2
+]
+
+# Pattern Part
+
+PATTERN_PART_1 = r"Parte\d{1}" # Ex Parte3 
+PATTERN_PART_2 = r"-\s\d{1}" # Ex 7206- 4
+PATTERN_PART_3 = r"-\d{1}" # Ex 7206-4
+PATTERN_PART_4 = r"Parte\s\d{1}" # Ex Parte 3
+PATTERN_PART_5 = r"Partes\s\d{1},\s\d{1}\se\s\d{1}" # Ex Partes 2, 3 e 4
+PATTERN_PART_6 = r"Partes\s\d{1}\se\s\d{1}" # Ex Partes 3 e 4
+
+list_of_partpatterns = [
+                    PATTERN_PART_1, PATTERN_PART_2, PATTERN_PART_3, PATTERN_PART_4,
+                                    PATTERN_PART_5, PATTERN_PART_6
+                   ]
+
+# Pattern Year
+
+PATTERN_YEAR_1 = r"/\s\d{4}" # Ex / 2023
+PATTERN_YEAR_2 = r"/\d{4}" # Ex /2023
+PATTERN_YEAR_3 = r":\d{4}" # Ex :2023
+PATTERN_YEAR_4 = r":\s\d{4}" # Ex : 2023
+PATTERN_YEAR_5 = r"/\s\d{2}\s\d{2}" # Ex / 20 20
+PATTERN_YEAR_6 = r"/\d{2}\s\d{2}" # Ex /20 20
+PATTERN_YEAR_7 = r":\d{2}\s\d{2}" # Ex :20 20
+PATTERN_YEAR_8 = r":\s\d{2}\s\d{2}" # Ex : 20 20
+
+list_of_yearpatterns = [
+                    PATTERN_YEAR_1, PATTERN_YEAR_2, PATTERN_YEAR_3, PATTERN_YEAR_4,
+                    PATTERN_YEAR_5, PATTERN_YEAR_6, PATTERN_YEAR_7, PATTERN_YEAR_8
+                   ]
 
 # ABNT E ISO
 
@@ -60,33 +103,69 @@ list_of_patterns = [
                     PATTERN_36, PATTERN_37
                    ]
 
-
-
-
-
 #Test
 
 text = " Determinação da resistência à compressão - até 100 kN ABNT NBR 15712 / 2014 - Partes 1 e 2  ASTM F2077:2022 - item 6.3, 8 e 9  Determinação da resistência ao cisalhamento - até 100 kN ABNT NBR 15712 / 2014 - Partes 1 e 2  ASTM F2077:2022 – item 6.4, 8 e 9  Determinação da resistência à torção - até 200 Nm ABNT NBR 15712 / 2014 - Partes 1 e 2  ASTM F2077:2022 – item 6.5, 8 e 9  Resistência à penetração devido à compressão axial - até 100 kN  ABNT NBR 15712 / 20 09 - Parte 3 ASTM F2267:2022 BARRAS DE COLUNA"
+
+def build_standard(standard):
+    result = []
+    main_tag, complementar_tag = detect_tag(standard)
+    number = detect_number(standard)
+    part = detect_part(standard)
+    year = detect_year(standard)
+
+def detect_tag(standard):
+    if "ABNT" in standard:
+        main_tag = "ABNT"
+        complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
+        complementar_tag = complementar.group().replace("ABNT", "")
+        return main_tag, complementar_tag
+
+    if "ISO" in standard:
+        main_tag = "ISO"
+        complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
+        complementar_tag = complementar.group().replace("ISO", "")
+        return main_tag, complementar_tag
+    if "ASTM" in standard:
+        main_tag = "ASTM"
+        complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
+        complementar_tag = complementar.group().replace("ASTM", "")
+        return main_tag, complementar_tag
+
+def detect_number(standard):
+    for pattern in list_of_numberpatterns:
+        match = re.search(pattern, standard)
+        if match:
+            result = re.search(r"\d{2,5}", match.group())
+            if result: 
+                return result.group()
+
+def detect_part(standard):
+    parts = []
+    for pattern in list_of_partpatterns:
+        match = re.search(pattern, standard)
+        if match:
+            number_part = re.finditer(r"\d{1}", match.group())
+            if number_part:
+                for number in number_part:
+                    parts.append(number.group())
+    return parts
+
+def detect_year(standard):
+    year_concatened = ""
+    for pattern in list_of_yearpatterns:
+        match = re.search(pattern, standard)
+        if match:
+            year_match = re.finditer(r"\d", match.group())
+            if year_match:
+                for year in year_match:
+                    year_concatened = year_concatened + year.group()
+    return year_concatened
 
 def __init__(text):
     lista_resultados = search_patterns(text)
     lista_interval = set_interval(lista_resultados, text)
     format_standard(lista_interval)
-
-# def search_patterns(text):
-#     lista_de_matchs = []
-
-#     for pattern in list_of_patterns:
-#         resultados = re.finditer(pattern, text)
-#         for match in resultados:
-#             title, start, end = match.group(), match.start(), match.end()
-#             if lista_de_matchs != 0: 
-#                 for item in lista_de_matchs:
-#                     if item[0] in title:
-#                         lista_de_matchs.remove(item)
-#             lista_de_matchs.append([title, [start, end]])
-
-#     return lista_de_matchs
 
 def search_patterns(text):
     lista_de_matchs = []
@@ -147,4 +226,4 @@ def sort_list(list_results):
     lista_ordenada = sorted(list_results, key=lambda x: x[1][0])
     return lista_ordenada
 
-__init__(text)
+print(detect_tag("ABNT NBR ISO 17025 Parte 2 :2220"))

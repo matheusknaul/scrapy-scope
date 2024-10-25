@@ -8,6 +8,7 @@ def __make_excel__(lista):
 
     ws['A1'] = 'Produto'
     ws['B1'] = 'Ensaio'
+    ws['C1'] = 'Norma'
 
     for item in range(len(lista)):
         ws[f'A{item + 2}'] = lista[item][0]
@@ -21,15 +22,13 @@ def __make_excel__(lista):
 
     print('Arquivo excel criado com sucesso!')
 
-def delete_empty(excel):
+def delete_empty(excel): # Mudar da coluna B para C
     """Ao deletarmos uma linha no excel usando o openpyxl, ele muda e atualiza instântaneamente
     todos os indices <- precisa-se tomar cuidado com essa característica.
 
     Args:
         excel (_type_): _description_
     """
-
-
     workbook = load_workbook(excel)
     sheet = workbook['Sheet']
 
@@ -41,11 +40,4 @@ def delete_empty(excel):
             sheet.delete_rows(indice_row)
         else:
             indice_row -= 1
-
-    #Abordagem que é falha, por conta da atualização do excel ao apagar alguma linha
-
-    # for indice_row in range(ultima_linha, 0, -1):
-    #     if sheet[f'B{indice_row}'].value == "" or sheet[f'B{indice_row}'].value == " ":
-    #         sheet.delete_rows(indice_row)
-    
     workbook.save(excel)

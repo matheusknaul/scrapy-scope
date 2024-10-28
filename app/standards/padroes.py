@@ -1,5 +1,15 @@
 import re
 
+""" 
+Esse arquivo é onde ficará os padrões das normas.
+
+Os padrões estão dentro das listas, que serão importadas pelos arquivos.
+
+Se caso tiver que adicionar mais um padrão, não esquecer de ordenar corretamente e
+acrescentar na lista.
+"""
+
+
 # Pattern Tag
 
 PATTERN_ABNT = r"ABNT"
@@ -24,13 +34,15 @@ list_of_numberpatterns = [
 PATTERN_PART_1 = r"Parte\d{1}" # Ex Parte3 
 PATTERN_PART_2 = r"-\s\d{1}" # Ex 7206- 4
 PATTERN_PART_3 = r"-\d{1}" # Ex 7206-4
-PATTERN_PART_4 = r"Parte\s\d{1}" # Ex Parte 3
-PATTERN_PART_5 = r"Partes\s\d{1},\s\d{1}\se\s\d{1}" # Ex Partes 2, 3 e 4
-PATTERN_PART_6 = r"Partes\s\d{1}\se\s\d{1}" # Ex Partes 3 e 4
+PATTERN_PART_4 = r"-\d{1,2}-\d{1,2}" # Ex 7206-4-12
+PATTERN_PART_5 = r"-\d{1,2}-\s\d{1,2}" # Ex 7206-4- 12
+PATTERN_PART_6 = r"Parte\s\d{1}" # Ex Parte 3
+PATTERN_PART_7 = r"Partes\s\d{1},\s\d{1}\se\s\d{1}" # Ex Partes 2, 3 e 4
+PATTERN_PART_8 = r"Partes\s\d{1}\se\s\d{1}" # Ex Partes 3 e 4
 
 list_of_partpatterns = [
                     PATTERN_PART_1, PATTERN_PART_2, PATTERN_PART_3, PATTERN_PART_4,
-                                    PATTERN_PART_5, PATTERN_PART_6
+                    PATTERN_PART_5, PATTERN_PART_6, PATTERN_PART_7, PATTERN_PART_8
                    ]
 
 # Pattern Year
@@ -79,18 +91,24 @@ PATTERN_25 = r"\s([A-Z]{2,4}\s){1,4}\d{2,5}:\d{4}\sErrata\s\d{1}+:\d{4}" # Ex AB
 PATTERN_26 = r"\s([A-Z]{2,4}\s){1,4}\d{2,5}\s/\s\d{4}\s+-\sParte\d{1}" #Ex ABNT NBR ISO 17025 / 2025 - Parte3 
 PATTERN_27 = r"\s([A-Z]{2,4}\s){1,4}/[A-Z]{2,5}\s\d{2,5}+:\d{4}" #Ex ABNT NBT IEC /CISPR 25:2010 
 PATTERN_28 = r"\s([A-Z]{2,4}\s){1,4}[A-Z]{2,5}/[A-Z]{2,5}\s\d{2,5}:\d{4}" #Ex ABNT NBT IEC/CISPR 25:2010
-
+PATTERN_29 = r"\s([A-Z]{2,4}\s){1,4}\d{2,5}+-\d{1,2}+-\d{1,2}+:\d{4}" # Ex ABNT NBR IEC 60695-4-10:2024
+PATTERN_30 = r"\s([A-Z]{2,4}\s){1,4}\d{2,5}\s+-\d{1,2}+-\d{1,2}+:\d{4}" # Ex ABNT NBR IEC 60695 -4-10:2024
+PATTERN_31 = r"\s([A-Z]{2,4}\s){1,4}\d{2,5}+-\d{1,2}\s+-\d{1,2}+:\d{4}" # Ex ABNT NBR IEC 60695-4 -10:2024
+PATTERN_32 = r"\s([A-Z]{2,4}\s){1,4}\d{2,5}+-\d{1,2}\s+-\d\s{1,2}+:\d{4}" # Ex ABNT NBR IEC 60695-4 - 10:2024
+PATTERN_33 = r"\s([A-Z]{2,4}\s){1,4}\d{2,5}+-\d{1,2}+-\d\s{1,2}+:\d{4}" # Ex ABNT NBR IEC 60695-4- 10:2024
+PATTERN_34 = r"\s([A-Z]{2,4}\s){1,4}\d{2,5}\s+-\d{1,2}\s+-\d{1,2}+:\d{4}" # Ex ABNT NBR IEC 60695 -4 -10:2024
+PATTERN_35 = r"\s([A-Z]{2,4}\s){1,4}\d{2,5}\s+-\d{1,2}\s+-\d{1,2}+:\d{4}" # Ex ABNT NBR IEC 60695 -4 -10:2024
 # ASTM
 
-PATTERN_29 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}" # Ex ASTM E112
-PATTERN_30 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}+:\d{2,4}" # Ex ASTM E112:2022
-PATTERN_31 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}\s/\s\d{4}[a-z]{1}\d{1}" # Ex ASTM F1264 / 2016e1
-PATTERN_32 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}\s/\s\d{4}" # Ex ASTM F1264 / 2016
-PATTERN_33 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}\s/\s\d{4}\s[a-z]{1}\d{1}" # Ex ASTM F1264 / 2016 e1
-PATTERN_34 = r"\s([A-Z]{4}\s[A-Z]\d{2,5}):\d{4}\s\(Reaprovada\s\d{4}\)" # Ex ASTM E112:2022 (Reaprovada 2020)
-PATTERN_35 = r"\s([A-Z]{4}\s[A-Z]\d{2,5}):\d{4}\s\(Reaprovada\s\d{4}\)[a-z]{1}\d{1}" # Ex ASTM E112:2022 (Reaprovada 2020)e1
-PATTERN_36 = r"\s([A-Z]{4}\s[A-Z]\d{2,5}):\d{4}\sReapproved\s\d{4}" # Ex ASTM E112:2013 Reapproved 2021
-PATTERN_37 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}+:\d{2,4}[a-z]{1}" # Ex ASTM E112:2022a
+PATTERN_36 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}" # Ex ASTM E112
+PATTERN_37 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}+:\d{2,4}" # Ex ASTM E112:2022
+PATTERN_38 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}\s/\s\d{4}[a-z]{1}\d{1}" # Ex ASTM F1264 / 2016e1
+PATTERN_39 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}\s/\s\d{4}" # Ex ASTM F1264 / 2016
+PATTERN_40 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}\s/\s\d{4}\s[a-z]{1}\d{1}" # Ex ASTM F1264 / 2016 e1
+PATTERN_41 = r"\s([A-Z]{4}\s[A-Z]\d{2,5}):\d{4}\s\(Reaprovada\s\d{4}\)" # Ex ASTM E112:2022 (Reaprovada 2020)
+PATTERN_42 = r"\s([A-Z]{4}\s[A-Z]\d{2,5}):\d{4}\s\(Reaprovada\s\d{4}\)[a-z]{1}\d{1}" # Ex ASTM E112:2022 (Reaprovada 2020)e1
+PATTERN_43 = r"\s([A-Z]{4}\s[A-Z]\d{2,5}):\d{4}\sReapproved\s\d{4}" # Ex ASTM E112:2013 Reapproved 2021
+PATTERN_44 = r"\s([A-Z]{4}\s)[A-Z]{1}\d{2,5}+:\d{2,4}[a-z]{1}" # Ex ASTM E112:2022a
 
 list_of_patterns = [
                     PATTERN_1, PATTERN_2, PATTERN_3, PATTERN_4, PATTERN_5,
@@ -100,7 +118,8 @@ list_of_patterns = [
                     PATTERN_21, PATTERN_22, PATTERN_23, PATTERN_24, PATTERN_25,
                     PATTERN_26, PATTERN_27, PATTERN_28, PATTERN_29, PATTERN_30,
                     PATTERN_31, PATTERN_32, PATTERN_33, PATTERN_34, PATTERN_35,
-                    PATTERN_36, PATTERN_37
+                    PATTERN_36, PATTERN_37, PATTERN_38, PATTERN_39, PATTERN_40,
+                    PATTERN_41, PATTERN_42, PATTERN_43, PATTERN_44
                    ]
 
 

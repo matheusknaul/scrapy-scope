@@ -36,7 +36,7 @@ def delete_empty(excel): # Mudar da coluna B para C
     
     indice_row = ultima_linha
     while indice_row > 0:
-        if sheet[f'B{indice_row}'].value == "" or sheet[f'B{indice_row}'].value == " ":
+        if sheet[f'C{indice_row}'].value == "" or sheet[f'C{indice_row}'].value == " ":
             sheet.delete_rows(indice_row)
         else:
             indice_row -= 1

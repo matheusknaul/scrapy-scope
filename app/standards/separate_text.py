@@ -1,73 +1,7 @@
 import re
 from padroes import list_of_patterns, list_of_yearpatterns, list_of_partpatterns, list_of_numberpatterns
 
-def build_standard(standard):
-    result = []
-    main_tag, complementar_tag = detect_tag(standard)
-    number = detect_number(standard)
-    part = detect_part(standard)
-    year = detect_year(standard)
-
-    result.append([main_tag, complementar_tag])
-    result.append(number)
-    if part:
-        result.append(part)
-    result.append(year)
-
-    return result
-
-def detect_tag(standard):
-
-    if "ABNT" in standard:
-        main_tag = "ABNT"
-        complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
-        complementar_tag = complementar.group().replace("ABNT", "")
-        return main_tag, complementar_tag
-
-    if "ISO" in standard:
-        main_tag = "ISO"
-        complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
-        complementar_tag = complementar.group().replace("ISO", "")
-        return main_tag, complementar_tag
-    
-    if "ASTM" in standard:
-        main_tag = "ASTM"
-        complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
-        complementar_tag = complementar.group().replace("ASTM", "")
-        return main_tag, complementar_tag
-
-def detect_number(standard):
-    
-    for pattern in list_of_numberpatterns:
-        match = re.search(pattern, standard)
-        if match:
-            result = re.search(r"[A-Z]{1}\d{2,5}|\d{2,5}", match.group())
-            if result: 
-                return result.group()
-
-def detect_part(standard):
-    parts = []
-    for pattern in list_of_partpatterns:
-        match = re.search(pattern, standard)
-        if match:
-            number_part = re.finditer(r"\d{1}", match.group())
-            if number_part:
-                for number in number_part:
-                    parts.append(number.group())
-    return parts
-
-def detect_year(standard):
-    year_concatened = ""
-    for pattern in list_of_yearpatterns:
-        match = re.search(pattern, standard)
-        if match:
-            year_match = re.finditer(r"\d", match.group())
-            if year_match:
-                for year in year_match:
-                    year_concatened = year_concatened + year.group()
-    return year_concatened
-
-def __init__(text):
+def __separate__(text):
     lista_resultados = search_patterns(text)
     lista_interval = set_interval(lista_resultados, text)
     format_standard(lista_interval)
@@ -124,12 +58,9 @@ def set_interval(list_results, text):
     return result
     
 def format_standard(list_results):
-    for result in list_results:
-        print(result[1])
+    print(list_results)
+    print('Cadê a teté')
 
 def sort_list(list_results):
     lista_ordenada = sorted(list_results, key=lambda x: x[1][0])
     return lista_ordenada
-
-
-print(build_standard("ABNT NBR ISO 17232 Partes 2, 3 e 4:2025"))

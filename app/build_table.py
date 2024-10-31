@@ -1,3 +1,10 @@
+""" 
+Esse arquivo retorna um array, que representerá os elementos da linha
+
+flag seria o produto e o text com o intervalo, é o intervalo do começo desse produto até o próximo
+"""
+
+
 def __build__(lista_resultado):
     lista_resultado_new = []
     

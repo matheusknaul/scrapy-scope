@@ -1,6 +1,12 @@
 import re
 from PyPDF2 import PdfReader
 
+"""
+Esse arquivo junta o texto de todas as páginas e junta em uma só string.
+
+Ele também remove blocos padrões de texto que se repetem na string.
+"""
+
 #finalizado
 
 def __build_text__(pdf):

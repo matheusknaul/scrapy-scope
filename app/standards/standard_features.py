@@ -16,20 +16,36 @@ Ele retorna algo parecido como: [['ABNT', 'NBR ISO'], 17025, ['1', '2'], 2017] (
 """
 
 def build_standard(standard):
-    result = []
     main_tag, complementar_tag = detect_tag(standard)
     number = detect_number(standard)
     part = detect_part(standard)
     year = detect_year(standard)
 
-    result.append([main_tag, complementar_tag])
-    result.append(number)
+    standard_features = ([main_tag, complementar_tag], number, part, year)
+    standard_formated = format_standard(standard_features)
+
+    return [standard_formated, standard_features]
+
+def format_standard(features):
+    standards = []
+    main = features[0][0]
+    if features[0][1] != " ":
+        complementar = features[0][1]
+    else:
+        complementar = ""
+    number = features[1]
+    year = features[3]
+    if features[2]:
+        for part in features[2]:
+            standard = main + " " + complementar + " " + number + "-" + part + ":" + year
+            new_standard = standard.replace("  ", " ")
+            standards.append(new_standard)
+    else:
+        standard = main + " " + complementar + " " + number + ":" + year
+        new_standard = standard.replace("  ", " ")
+        standards.append(new_standard)
+    return standards
     
-    result.append(part)
-    result.append(year)
-
-    return result
-
 def detect_tag(standard):
 
     if "ABNT" in standard:

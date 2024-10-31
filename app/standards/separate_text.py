@@ -4,7 +4,9 @@ from padroes import list_of_patterns, list_of_yearpatterns, list_of_partpatterns
 def __separate__(text):
     lista_resultados = search_patterns(text)
     lista_interval = set_interval(lista_resultados, text)
-    format_standard(lista_interval)
+    print(format_standard(lista_interval))
+
+    standard_elements = []
 
 def search_patterns(text):
     lista_de_matchs = []
@@ -58,8 +60,14 @@ def set_interval(list_results, text):
     return result
     
 def format_standard(list_results):
-    print(list_results)
-    print('Cadê a teté')
+    new_lista_result = []
+    for result in list_results:
+        new_result = []
+        from standard_features import build_standard
+        new_result.append(result[0])
+        new_result.append(build_standard(result[1]))
+        new_lista_result.append(new_result)
+    return new_lista_result
 
 def sort_list(list_results):
     lista_ordenada = sorted(list_results, key=lambda x: x[1][0])

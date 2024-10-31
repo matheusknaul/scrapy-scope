@@ -12,5 +12,12 @@ lista = __search__(texto, produtos_2)
 lista_new = organizar_indices(lista)
 lista_segregada = __build__(lista_new)
 rows = __make_text__(texto, lista_segregada)
+
+# próximo passo a se fazer após o rows... é pegar o primeiro indice dele (que é o produto), e o segundo indice (texto intervalo de produtos) e aplicar a lógica da seção
+# de standards. Para cada ensaio, uma nova linha. Para cada norma, mais uma nova linha.
+
+print(rows)
+
 __make_excel__(rows)
 
+ 

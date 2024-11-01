@@ -9,9 +9,10 @@ worksheet = workbook['Sheet']
 
 lista = []
 for cell in worksheet['B']:
-    column_C = []
+    print(cell)
     if cell.value:
-        column_C.append(__separate__(cell.value))
-    lista.append(column_C)
+        lista.append(__separate__(cell.value))
+
+for 
 
 print(lista)

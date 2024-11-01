@@ -24,10 +24,13 @@ def build_standard(standard):
     standard_features = ([main_tag, complementar_tag], number, part, year)
     standard_formated = format_standard(standard_features)
 
-    return [standard_formated, standard_features]
+    # print('This is standard formated:')
+    # print(standard_formated)
+
+    return standard_formated
 
 def format_standard(features):
-    standards = []
+    result = []
     main = features[0][0]
     if features[0][1] != " ":
         complementar = features[0][1]
@@ -39,31 +42,45 @@ def format_standard(features):
         for part in features[2]:
             standard = main + " " + complementar + " " + number + "-" + part + ":" + year
             new_standard = standard.replace("  ", " ")
-            standards.append(new_standard)
+            result.append([(main, number, year, part), new_standard])
     else:
         standard = main + " " + complementar + " " + number + ":" + year
         new_standard = standard.replace("  ", " ")
-        standards.append(new_standard)
-    return standards
+        result.append([(main, number, year, "null"), new_standard])
+    return result
     
 def detect_tag(standard):
+    print(standard, 'aaaaaaaaaaa')
+    possibles_tag = ['ABNT', 'ISO', 'ASTM', 'IEC', 'NBR']
+    for tag in possibles_tag:
+        if tag in standard:
+            main_tag = tag
+            complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
+            complementar_tag = complementar.group().replace(tag, "")
+            return main_tag, complementar_tag
+    return 'disregard', 'disregard'
+    # if "ABNT" in standard:
+    #     main_tag = "ABNT"
+    #     complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
+    #     complementar_tag = complementar.group().replace("ABNT", "")
+    #     return main_tag, complementar_tag
 
-    if "ABNT" in standard:
-        main_tag = "ABNT"
-        complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
-        complementar_tag = complementar.group().replace("ABNT", "")
-        return main_tag, complementar_tag
-
-    if "ISO" in standard:
-        main_tag = "ISO"
-        complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
-        complementar_tag = complementar.group().replace("ISO", "")
-        return main_tag, complementar_tag
+    # if "ISO" in standard:
+    #     main_tag = "ISO"
+    #     complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
+    #     complementar_tag = complementar.group().replace("ISO", "")
+    #     return main_tag, complementar_tag
     
-    if "ASTM" in standard:
-        main_tag = "ASTM"
+    # if "ASTM" in standard:
+    #     main_tag = "ASTM"
+    #     complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
+    #     complementar_tag = complementar.group().replace("ASTM", "")
+    #     return main_tag, complementar_tag
+    
+    if "IEC" in standard:
+        main_tag = "IEC"
         complementar = re.search(r"([A-Z]{2,5}\s){1,4}", standard)
-        complementar_tag = complementar.group().replace("ASTM", "")
+        complementar_tag = complementar.group().replace("IEC", "")
         return main_tag, complementar_tag
 
 def detect_number(standard):
